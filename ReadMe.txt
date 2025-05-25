@@ -14,7 +14,7 @@ PUC Minas
 
 🚀 Etapa 1: Criação da Base de Dados : ✅ Implementação: Concluída
 🚀 Etapa 2: Indexação: Implementação : ✅ Implementação: Concluída
-
+🚀 Etapa 3: Compactação: Implementação : ✅ Implementação: Concluída
 
 📌 Descrição do Projeto
 
@@ -35,6 +35,8 @@ Ao iniciar o programa, o usuário terá duas opções no menu principal:
     ❌ Deletar um filme do banco de dados
 
     📂 Importar uma planilha de filmes no formato CSV
+
+    🗜️ Compactar e descompactar o banco de dados usando os algoritmos Huffman e LZW
 
 2️⃣ Sair do sistema
 
