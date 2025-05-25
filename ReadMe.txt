@@ -12,9 +12,9 @@ PUC Minas
 
     Douglas Silva Santana (874490)
 
-🚀 Etapa 1: Criação da Base de Dados : ✅ Implementação: Concluída
-🚀 Etapa 2: Indexação: Implementação : ✅ Implementação: Concluída
-🚀 Etapa 3: Compactação: Implementação : ✅ Implementação: Concluída
+🚀 Etapa 1: Criação da Base de Dados :     ✅ Implementação: Concluída
+🚀 Etapa 2: Indexação: Implementação :     ✅ Implementação: Concluída
+🚀 Etapa 3: Compactação: Implementação :   ✅ Implementação: Concluída
 
 📌 Descrição do Projeto
 
