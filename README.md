@@ -1,5 +1,5 @@
 # AED3_Database
-📽️ Sistema de Gerenciamento da Locadora Yellow
+## 📽️ Sistema de Gerenciamento da Locadora Yellow
 
 PUC Minas
 📚 Curso: Engenharia da Computação
@@ -14,11 +14,11 @@ PUC Minas
 🚀 Etapa 1: Criação da Base de Dados : ✅ Implementação: Concluída
 
 
-📌 Descrição do Projeto
+## 📌 Descrição do Projeto
 
 O sistema simula o gerenciamento de uma locadora de filmes chamada Yellow. Ele permite realizar operações sobre um banco de dados de filmes de maneira simples e eficiente.
 
-🛠️ Funcionalidades
+## 🛠️ Funcionalidades
 
 Ao iniciar o programa, o usuário terá duas opções no menu principal:
 
@@ -44,5 +44,24 @@ caminho\para\o\arquivo.csv
 
 Após a importação, todas as funcionalidades estarão disponíveis para gerenciamento dos filmes.
 
+## 🚀 Como rodar o projeto
+
+### ✅ Pré-requisitos
+- Java JDK 17 ou superior instalado.
+
+#### 🔧 Como compilar
+
+Abra o terminal dentro da pasta do projeto e execute:
+
+```bash
+cd aeds3 # muda para a pasta principal
+javac *.java
+```
+
+### ▶️ Como executar
+No mesmo terminal, execute:
 
 
+```bash
+java Principal
+```
