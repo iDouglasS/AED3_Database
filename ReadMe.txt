@@ -12,9 +12,10 @@ PUC Minas
 
     Douglas Silva Santana (874490)
 
-🚀 Etapa 1: Criação da Base de Dados :     ✅ Implementação: Concluída
-🚀 Etapa 2: Indexação: Implementação :     ✅ Implementação: Concluída
-🚀 Etapa 3: Compactação: Implementação :   ✅ Implementação: Concluída
+🚀 Etapa 1: Criação da Base de Dados : ✅ Implementação: Concluída
+🚀 Etapa 2: Indexação: Implementação : ✅ Implementação: Concluída
+🚀 Etapa 3: Compactação : ✅ Implementação: Concluída
+
 
 📌 Descrição do Projeto
 
@@ -36,7 +37,7 @@ Ao iniciar o programa, o usuário terá duas opções no menu principal:
 
     📂 Importar uma planilha de filmes no formato CSV
 
-    🗜️ Compactar e descompactar o banco de dados usando os algoritmos Huffman e LZW
+    ✇ Compactar e descompactar o banco de dados usando o algoritimo LZW e Huffman
 
 2️⃣ Sair do sistema
 

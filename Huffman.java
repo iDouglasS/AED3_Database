@@ -1,9 +1,9 @@
 import java.util.*;
 import java.io.*;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Base64;
 
 public class Huffman {
 
@@ -38,12 +38,10 @@ public class Huffman {
 
     private void buildCode(Node node, String code, Map<Character, String> map) {
         if (node == null) return;
-
         if (node.isLeaf()) {
             map.put(node.ch, code);
             return;
         }
-
         buildCode(node.left, code + "0", map);
         buildCode(node.right, code + "1", map);
     }
@@ -66,34 +64,55 @@ public class Huffman {
         }
 
         Node root = pq.poll();
-
         buildCode(root, "", codeMap);
 
-        // Serializar a árvore para a descompressão
+        // Serializa a árvore
         ByteArrayOutputStream treeOut = new ByteArrayOutputStream();
         writeTree(root, new DataOutputStream(treeOut));
         byte[] treeBytes = treeOut.toByteArray();
 
-        StringBuilder encoded = new StringBuilder();
+        // Codifica em bits reais usando BitSet
+        BitSet bitSet = new BitSet();
+        int bitIndex = 0;
         for (char c : input.toCharArray()) {
-            encoded.append(codeMap.get(c));
+            String code = codeMap.get(c);
+            for (char bit : code.toCharArray()) {
+                if (bit == '1') bitSet.set(bitIndex);
+                bitIndex++;
+            }
         }
 
-        // Salvar bits como String binária e árvore serializada (em bytes)
-        return Base64.getEncoder().encodeToString(treeBytes) + "\n" + encoded.toString();
+        byte[] bitData = bitSet.toByteArray();
+
+        // Concatena: [treeLength][tree][bitLength][bitData]
+        ByteArrayOutputStream finalOut = new ByteArrayOutputStream();
+        DataOutputStream dataOut = new DataOutputStream(finalOut);
+        dataOut.writeInt(treeBytes.length);
+        dataOut.write(treeBytes);
+        dataOut.writeInt(bitIndex); // quantidade real de bits usados
+        dataOut.write(bitData);
+
+        byte[] finalBytes = finalOut.toByteArray();
+        return Base64.getEncoder().encodeToString(finalBytes);
     }
 
     public String decompress(String compressed) throws IOException {
-        String[] partes = compressed.split("\n", 2);
-        byte[] treeBytes = Base64.getDecoder().decode(partes[0]);
-        String encodedData = partes[1];
+        byte[] allBytes = Base64.getDecoder().decode(compressed);
+        DataInputStream dataIn = new DataInputStream(new ByteArrayInputStream(allBytes));
 
+        int treeLength = dataIn.readInt();
+        byte[] treeBytes = new byte[treeLength];
+        dataIn.readFully(treeBytes);
         Node root = readTree(new DataInputStream(new ByteArrayInputStream(treeBytes)));
+
+        int bitLength = dataIn.readInt();
+        byte[] bitData = dataIn.readNBytes((bitLength + 7) / 8);
+        BitSet bitSet = BitSet.valueOf(bitData);
 
         StringBuilder decoded = new StringBuilder();
         Node current = root;
-        for (char bit : encodedData.toCharArray()) {
-            current = (bit == '0') ? current.left : current.right;
+        for (int i = 0; i < bitLength; i++) {
+            current = bitSet.get(i) ? current.right : current.left;
             if (current.isLeaf()) {
                 decoded.append(current.ch);
                 current = root;

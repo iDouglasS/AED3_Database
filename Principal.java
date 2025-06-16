@@ -7,7 +7,7 @@ public class Principal {
 
         try {
             do {
-                // Exibe o menu principal
+                // Exibe o menu prfuncHashincipal
                 System.out.println("\n\nSistema de Gerenciamento Locadora Yellow");
                 System.out.println("-----------------------");
                 System.out.println("1 - Gerenciar filme");

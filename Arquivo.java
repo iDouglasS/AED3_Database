@@ -84,7 +84,8 @@ public List<String> retornaListaFilme() throws Exception {
             arquivo.skipBytes(2);
             arquivo.write(data);
         }
-    
+        HashFunc funcHash = new HashFunc();
+        funcHash.hashPorTitulo(obj.getTitle());
         String retorno = obj.getTitle() + "##" + address;
         return retorno;
     }
@@ -262,4 +263,5 @@ public List<String> retornaListaFilme() throws Exception {
     public void close() throws Exception {
         arquivo.close();
     }
+
 }

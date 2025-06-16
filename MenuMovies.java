@@ -1,14 +1,15 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Scanner;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.Base64;
+
 
 public class MenuMovies {
     private MovieDAO movieDAO;
@@ -79,36 +80,43 @@ public class MenuMovies {
                     System.out.println("Opção inválida!"); // Trata opções inválidas
                     break;
             }
-        } while (option != 0); // Continua até o usuário escolher sair
+        } while (option != 0); 
     }
 
    // Comparador comparador = new Comparador();
     // Compressão usando Huffman
+    /**
+     * @param filmes
+     * @throws Exception
+     */
     public void comprimirFilmesHuffman(List<String> filmes) throws Exception {
         if (filmes == null || filmes.isEmpty()) {
             System.out.println("Lista de filmes está vazia.");
             return;
-        }
-
-        StringBuilder sb = new StringBuilder();
+    }
+    StringBuilder sb = new StringBuilder();
         for (String linha : filmes) {
             sb.append(linha).append("\n");
-        }
+    }
 
-        String texto = sb.toString();
-        Huffman huffman = new Huffman();
-        Map<Character, String> codeMap = new HashMap<>();
+    String texto = sb.toString();
+    Huffman huffman = new Huffman();
+    Map<Character, String> codeMap = new HashMap<>();
 
-        String resultado = huffman.compress(texto, codeMap);
+    String resultado = huffman.compress(texto, codeMap);
 
-        double versao = huffman.getVersao();
-        String nomeArquivo = String.format("Huffman_v%.1f.txt", versao);
-        Files.writeString(Paths.get(nomeArquivo), resultado, StandardCharsets.UTF_8);
-        System.out.println("Arquivo comprimido com sucesso: " + nomeArquivo);
-        System.out.println("Aguarde a avaliação dos algorítimos...");
-       // comparador.comparar(texto);
-        huffman.incrementarVersao();
-}
+    double versao = huffman.getVersao();
+    String nomeArquivo = String.format("Huffman_v%.1f.txt", versao);
+    Files.writeString(Paths.get(nomeArquivo), resultado, StandardCharsets.UTF_8);
+    System.out.println("Arquivo comprimido com sucesso: " + nomeArquivo);
+    System.out.println("Aguarde a avaliação dos algoritmos...");
+
+    // Chama o comparador passando o texto original para comparar LZW e Huffman
+    Comparador comparador = new Comparador();
+    comparador.comparar(texto);
+
+    huffman.incrementarVersao();
+}   
     // Descompressão usando Huffman
     public void descomprimirFilmesHuffman() throws Exception {
         System.out.print("\nDigite o nome do arquivo comprimido: ");
@@ -136,61 +144,48 @@ public class MenuMovies {
 
     // Descompressão usando LZW
     public void desComprimirFilmes() throws Exception {
-        System.out.print("\nDigite o nome do arquivo comprimido: ");
-        String nomeArquivo = console.nextLine();
+    System.out.print("\nDigite o nome do arquivo comprimido: ");
+    String nomeArquivo = console.nextLine();
 
-        String conteudo = Files.readString(Paths.get(nomeArquivo), StandardCharsets.UTF_8).trim();
-        if (conteudo.isEmpty()) {
-            System.out.println("Arquivo está vazio.");
-            return;
-        }
+    LZW lzw = new LZW();
+    byte[] dados;
+    try {
+        // Lê como texto e decodifica de Base64
+        String base64 = Files.readString(Paths.get(nomeArquivo));
+        dados = Base64.getDecoder().decode(base64);
+    } catch (IOException e) {
+        System.out.println("Erro ao ler arquivo: " + e.getMessage());
+        return;
+    }
 
-        List<Integer> codigos = new ArrayList<>();
-        for (String s : conteudo.split("\\s+")) {
-            try {
-                int code = Integer.parseInt(s);
-                if (code < 0) {
-                    System.out.println("Código negativo ignorado: " + code);
-                    continue;
-                }
-                codigos.add(code);
-            } catch (NumberFormatException e) {
-                System.out.println("Código inválido ignorado: " + s);
-            }
-        }
+    if (dados.length == 0) {
+        System.out.println("Arquivo está vazio.");
+        return;
+    }
 
-        if (codigos.isEmpty()) {
-            System.out.println("Nenhum código válido lido do arquivo.");
-            return;
-        }
+    String resultado;
+    try {
+        resultado = lzw.decompress(dados);
+    } catch (Exception e) {
+        System.out.println("Erro ao descomprimir: " + e.getMessage());
+        return;
+    }
 
-        LZW lzw = new LZW();
-        String resultado;
-        try {
-            resultado = lzw.decompress(codigos);
-        } catch (Exception e) {
-            System.out.println("Erro ao descomprimir: " + e.getMessage());
-            return;
-        }
+    String nomeSaida = nomeArquivo.replace(".txt", "_descomprimido.txt");
+    Files.write(Paths.get(nomeSaida), resultado.getBytes(StandardCharsets.UTF_8));
 
-        String nomeSaida = nomeArquivo.replace(".txt", "_descomprimido.txt");
-        Files.write(Paths.get(nomeSaida), resultado.getBytes(StandardCharsets.UTF_8));
-
-        System.out.println("Descompressão concluída com sucesso: " + nomeSaida);
+    System.out.println("Descompressão concluída com sucesso: " + nomeSaida);
 }
 
 
 
-// Compressão usando LZW
 public void comprimirFilmes(List<String> filmes) throws Exception {
     if (filmes == null || filmes.isEmpty()) {
         System.out.println("Lista de filmes está vazia. Não é possível realizar compressão.");
         return;
     }
 
-    LZW lzw = new LZW();
     StringBuilder sb = new StringBuilder();
-
     for (String linha : filmes) {
         if (linha != null) {
             sb.append(linha).append("\n");
@@ -203,32 +198,25 @@ public void comprimirFilmes(List<String> filmes) throws Exception {
         return;
     }
 
-    List<Integer> comprimido = lzw.compress(textoFinal);
+    LZW lzw = new LZW();
+    byte[] comprimido = lzw.compress(textoFinal);
 
-    // Remover nulos
-    comprimido.removeIf(Objects::isNull);
-
-    if (comprimido.isEmpty()) {
-        System.out.println("Compressão resultou em lista vazia.");
-        return;
-    }
-
-
-    StringBuilder resultado = new StringBuilder();
-    for (int code : comprimido) {
-        resultado.append(code).append(" ");
-    }
-
+    // Codifica o conteúdo em Base64 para salvar como texto
+    String base64 = Base64.getEncoder().encodeToString(comprimido);
     double versao = lzw.getVersao();
-    String nomeTxt = String.format("LZW_v%.1f.txt", versao);
+    String nomeArquivo = String.format("LZW_v%.1f.txt", versao);
 
-    Files.writeString(Paths.get(nomeTxt), resultado.toString().trim(), StandardCharsets.UTF_8);
-    System.out.println("Arquivo comprimido com sucesso: " + nomeTxt);
-    System.out.println("Aguarde a avaliação dos algorítimos...");
-    // comparador.comparar(textoFinal);
+    Files.write(Paths.get(nomeArquivo), base64.getBytes(StandardCharsets.UTF_8));
+
+    System.out.println("Arquivo comprimido com sucesso: " + nomeArquivo);
+    System.out.println("Aguarde a avaliação dos algoritmos...");
+
+    // Chama o comparador passando o texto original para comparar LZW e Huffman
+    Comparador comparador = new Comparador();
+    comparador.comparar(textoFinal);
+
     lzw.incrementarVersao();
 }
-
     // Procura um filme pelo título
     private void searchMovieByTitle() {
         System.out.print("\nTítulo do filme: ");

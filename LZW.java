@@ -1,4 +1,4 @@
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -8,8 +8,7 @@ public class LZW {
 
     private static final String VERSAO_PATH = "versao_lzw.txt";
 
-    public List<Integer> compress(String input) {
-        // Filtrar apenas caracteres ASCII básicos
+    public byte[] compress(String input) throws IOException {
         input = input.replaceAll("[^\\x00-\\x7F]", "?");
 
         int dictSize = 256;
@@ -25,30 +24,28 @@ public class LZW {
             if (dictionary.containsKey(wc)) {
                 w = wc;
             } else {
-                Integer code = dictionary.get(w);
-                if (code == null) {
-                    System.out.println("ERRO: dicionário não contém '" + w + "' (comprimento: " + w.length() + "), ignorando.");
-                } else {
-                    result.add(code);
-                }
+                result.add(dictionary.get(w));
                 dictionary.put(wc, dictSize++);
                 w = "" + c;
             }
         }
 
         if (!w.isEmpty()) {
-            Integer code = dictionary.get(w);
-            if (code != null) {
-                result.add(code);
-            }
+            result.add(dictionary.get(w));
         }
 
-        return result;
+        ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+        DataOutputStream dataOut = new DataOutputStream(byteOut);
+        for (int code : result) {
+            dataOut.writeShort(code); // 2 bytes por código
+        }
+        dataOut.close();
+        return byteOut.toByteArray();
     }
 
-    public String decompress(List<Integer> compressedInput) {
-        if (compressedInput == null || compressedInput.isEmpty()) {
-            throw new IllegalArgumentException("Lista de códigos está vazia.");
+    public String decompress(byte[] compressedInput) throws IOException {
+        if (compressedInput == null || compressedInput.length == 0) {
+            throw new IllegalArgumentException("Dados comprimidos vazios.");
         }
 
         int dictSize = 256;
@@ -57,16 +54,13 @@ public class LZW {
             dictionary.put(i, "" + (char) i);
         }
 
-        Integer firstCode = compressedInput.get(0);
-        if (!dictionary.containsKey(firstCode)) {
-            throw new IllegalArgumentException("Código inicial inválido: " + firstCode);
-        }
-
+        DataInputStream dataIn = new DataInputStream(new ByteArrayInputStream(compressedInput));
+        int firstCode = dataIn.readUnsignedShort();
         String w = dictionary.get(firstCode);
         StringBuilder result = new StringBuilder(w);
 
-        for (int i = 1; i < compressedInput.size(); i++) {
-            int k = compressedInput.get(i);
+        while (dataIn.available() > 0) {
+            int k = dataIn.readUnsignedShort();
             String entry;
 
             if (dictionary.containsKey(k)) {
@@ -74,7 +68,7 @@ public class LZW {
             } else if (k == dictSize) {
                 entry = w + w.charAt(0);
             } else {
-                throw new IllegalArgumentException("Código inválido: " + k + ", dicionário atual até " + (dictSize - 1));
+                throw new IllegalArgumentException("Código inválido: " + k);
             }
 
             result.append(entry);
@@ -83,6 +77,16 @@ public class LZW {
         }
 
         return result.toString();
+    }
+
+    // Salva os bytes comprimidos em um arquivo
+    public void salvarArquivoComprimido(byte[] dados, String caminho) throws IOException {
+        Files.write(Paths.get(caminho), dados);
+    }
+
+    // Lê os bytes comprimidos de um arquivo
+    public byte[] lerArquivoComprimido(String caminho) throws IOException {
+        return Files.readAllBytes(Paths.get(caminho));
     }
 
     public double getVersao() {
