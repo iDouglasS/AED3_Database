@@ -1,6 +1,5 @@
-📽️ Sistema de Gerenciamento da Locadora Yellow
-
-Link trabalho GitHub: https://github.com/iDouglasS/AED3_Database.git
+# AED3_Database
+## 📽️ Sistema de Gerenciamento da Locadora Yellow
 
 PUC Minas
 📚 Curso: Engenharia da Computação
@@ -13,15 +12,13 @@ PUC Minas
     Douglas Silva Santana (874490)
 
 🚀 Etapa 1: Criação da Base de Dados : ✅ Implementação: Concluída
-🚀 Etapa 2: Indexação: Implementação : ✅ Implementação: Concluída
-🚀 Etapa 3: Compactação : ✅ Implementação: Concluída
 
 
-📌 Descrição do Projeto
+## 📌 Descrição do Projeto
 
 O sistema simula o gerenciamento de uma locadora de filmes chamada Yellow. Ele permite realizar operações sobre um banco de dados de filmes de maneira simples e eficiente.
 
-🛠️ Funcionalidades
+## 🛠️ Funcionalidades
 
 Ao iniciar o programa, o usuário terá duas opções no menu principal:
 
@@ -37,11 +34,14 @@ Ao iniciar o programa, o usuário terá duas opções no menu principal:
 
     📂 Importar uma planilha de filmes no formato CSV
 
-    ✇ Compactar e descompactar o banco de dados usando o algoritimo LZW e Huffman
+2️⃣ Compressão e Descompressão de arquivos
 
-2️⃣ Sair do sistema
+- Algoritmo LZW
+- Algoritmo Huffman
 
-📥 Importação da Planilha de Filmes
+3️⃣ Sair do sistema
+
+### 📥 Importação da Planilha de Filmes
 
 No primeiro acesso, é necessário importar a base de dados no formato CSV. Para isso, insira o caminho do arquivo no seguinte formato:
 
@@ -49,4 +49,16 @@ caminho\para\o\arquivo.csv
 
 Após a importação, todas as funcionalidades estarão disponíveis para gerenciamento dos filmes.
 
+## 🚀 Como rodar o projeto
 
+### ✅ Pré-requisitos
+- Java JDK 17 ou superior instalado.
+
+#### 🔧 Como rodar o projeto
+
+Abra o terminal dentro da pasta do projeto e execute:
+
+```bash
+javac *.java # compila o projeto
+java Principal # executa o arquivo principal
+```
