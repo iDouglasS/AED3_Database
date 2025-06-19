@@ -4,6 +4,14 @@ import java.util.regex.Pattern;
 
 public class Kmp {
 
+    /*
+    Decidimos usar KMD devido ao:
+    Desempenho eficiente: Complexidade O(n + m), o que ajuda em textos grandes.
+    Evita repetições desnecessárias: Usa o array LPS para não comparar novamente partes já verificadas.
+    Ótimo para buscas repetidas: Excelente quando o mesmo padrão é buscado várias vezes em um texto.
+    Estável e confiável: Desempenho consistente independentemente da entrada.
+    Adaptável e claro: Pode ser facilmente modificado para mostrar contexto e contar ocorrências.
+    */
     // Método que busca o padrão no texto e retorna trechos com contexto
     public List<String> searchWithContext(String pattern, String text, int contexto) {
         List<String> contextos = new ArrayList<>();
