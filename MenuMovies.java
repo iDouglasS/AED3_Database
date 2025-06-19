@@ -35,6 +35,7 @@ public class MenuMovies {
             System.out.println("7 - Descomprimir arquivo LZW");
             System.out.println("8 - Compressão Huffman");
             System.out.println("9 - Descomprimir arquivo Huffman");
+            System.out.println("10 - Buscar palavra");
             System.out.println("0 - Sair");
 
             System.out.print("\nOpção: ");
@@ -73,6 +74,9 @@ public class MenuMovies {
                 case 9:
                     descomprimirFilmesHuffman();
                 break;
+                case 10:
+                    BuscaKmp(movieDAO.retornFilm());
+                break;
                 case 0:
                     System.out.println("Saindo do menu.");
                     break;
@@ -82,6 +86,38 @@ public class MenuMovies {
             }
         } while (option != 0); 
     }
+
+
+    public void BuscaKmp(List<String> filmes){
+
+        System.out.print("\nDigite a palavra que deseja buscar no arquivo: ");
+        String padrao = console.nextLine();
+        
+        Kmp Kmp = new Kmp();
+        StringBuilder sb = new StringBuilder();
+        for (String linha : filmes) {
+            sb.append(linha).append("\n");
+    }
+        String texto = sb.toString();
+        
+        List<String> resultado = Kmp.searchWithContext(padrao, texto, 15);
+
+        if (resultado.isEmpty()) {
+            System.out.println("Palavra não encontrada...");
+        } else {
+            System.out.println("\nOcorrências encontradas com contexto:\n");
+
+        int count = 1;
+        for (String linha : resultado) {
+            System.out.println("Ocorrência " + count + ":");
+            System.out.println("-----------------------------");
+            System.out.println(linha.trim());
+            System.out.println("-----------------------------\n");
+            count++;
+        }
+}
+    }
+
 
    // Comparador comparador = new Comparador();
     // Compressão usando Huffman
