@@ -26,7 +26,7 @@ O sistema simula o gerenciamento de uma locadora de filmes chamada Yellow. Ele p
 
 Ao iniciar o programa, o usuário terá duas opções no menu principal:
 
-1️⃣ Gerenciar Filmes
+### 1️⃣ Gerenciar Filmes
 
     🔍 Procurar um filme pelo título
     
@@ -42,6 +42,10 @@ Ao iniciar o programa, o usuário terá duas opções no menu principal:
     
     📑 Buscar palavras em todo o arquivo e verificar suas ocorrências
 
+### 🔒 Criptografia
+
+Os campos `genres` e `cast` são criptografados utilizando, respectivamente, as cifras de César e de Vigenère. A implementação desses algoritmos está localizada no arquivo `Encryption.java`, sendo utilizada no arquivo `Movie.java` nos métodos getters, setters, no construtor e na função `toString()`. Isso garante que os campos sejam sempre armazenados criptografados na base de dados e descriptografados automaticamente quando necessário para leitura.
+
 
 ### 📥 Importação da Planilha de Filmes
 
@@ -51,12 +55,20 @@ caminho\para\o\arquivo.csv
 
 Após a importação, todas as funcionalidades estarão disponíveis para gerenciamento dos filmes.
 
+O repositório atualmente já contem um arquivo chamado `imdb_movies.csv` que pode ser usado para importação inicial.
+
 ## 🚀 Como rodar o projeto
 
 ### ✅ Pré-requisitos
 - Java JDK 17 ou superior instalado.
 
 #### 🔧 Como rodar o projeto
+
+Clone o repositório usando o comando:
+
+```bash
+git clone https://github.com/iDouglasS/AED3_Database.git
+```
 
 Abra o terminal dentro da pasta do projeto e execute:
 
