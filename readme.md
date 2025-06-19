@@ -12,6 +12,10 @@ PUC Minas
     Douglas Silva Santana (874490)
 
 🚀 Etapa 1: Criação da Base de Dados : ✅ Implementação: Concluída
+🚀 Etapa 2: Indexação: Implementação : ✅ Implementação: Concluída
+🚀 Etapa 3: Compactação : ✅ Implementação: Concluída
+🚀 Etapa 4: Casamento de Padrões e Criptografia: ✅ Implementação: Concluída
+
 
 
 ## 📌 Descrição do Projeto
@@ -25,21 +29,19 @@ Ao iniciar o programa, o usuário terá duas opções no menu principal:
 1️⃣ Gerenciar Filmes
 
     🔍 Procurar um filme pelo título
-
+    
     ➕ Adicionar um novo filme
-
+    
     ✏️ Atualizar informações de um filme existente
-
+    
     ❌ Deletar um filme do banco de dados
-
+    
     📂 Importar uma planilha de filmes no formato CSV
+    
+    ✇ Compactar e descompactar o banco de dados usando o algoritmo LZW e Huffman
+    
+    📑 Buscar palavras em todo o arquivo e verificar suas ocorrências
 
-2️⃣ Compressão e Descompressão de arquivos
-
-- Algoritmo LZW
-- Algoritmo Huffman
-
-3️⃣ Sair do sistema
 
 ### 📥 Importação da Planilha de Filmes
 
