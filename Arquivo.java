@@ -56,7 +56,6 @@ public List<String> retornaListaFilme() throws Exception {
             System.out.println("Erro ao encontrar filme");
            }
     }
-    System.out.println("Total de filmes lidos: " + filmes.size()+ "\n"+"Aguarde a compressão...");
     return filmes;
 }
 
