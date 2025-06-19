@@ -2,6 +2,9 @@ import java.io.*;
 import java.time.LocalDate;
 
 public class Movie implements Recordable {
+    private Encryption encryption = new Encryption();
+
+    // Campos do filme
     private int id;
     private String title;
     private LocalDate releaseDate;
@@ -24,7 +27,7 @@ public class Movie implements Recordable {
         this.id = -1;
         this.title = title;
         this.releaseDate = releaseDate;
-        this.genres = genres;
+        this.genres = encryption.cipherCaesarArray(genres);
         this.score = score;
         this.cast = cast;
     }
@@ -36,8 +39,8 @@ public class Movie implements Recordable {
     public void setTitle(String title) { this.title = title; }
     public LocalDate getReleaseDate() { return releaseDate; }
     public void setReleaseDate(LocalDate releaseDate) { this.releaseDate = releaseDate; }
-    public String[] getGenres() { return genres; }
-    public void setGenres(String[] genres) { this.genres = genres; }
+    public String[] getGenres() { return encryption.decipherCaesarArray(genres); }
+    public void setGenres(String[] genres) { this.genres = encryption.cipherCaesarArray(genres); }
     public float getScore() { return score; }
     public void setScore(float score) { this.score = score; }
     public String[] getCast() { return cast; }
@@ -100,6 +103,8 @@ public class Movie implements Recordable {
     // Exibe os dados do filme em formato legível
     @Override
     public String toString() {
+        encryption.decipherCaesarArray(this.genres);
+
         return "\nID: " + this.id +
                 "\nTitle: " + this.title +
                 "\nRelease Date: " + this.releaseDate +
