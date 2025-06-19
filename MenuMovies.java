@@ -262,7 +262,6 @@ public void comprimirFilmes(List<String> filmes) throws Exception {
             Movie movie = movieDAO.findMovieByTitle(title); // Busca o filme
             if (movie != null) {
                 System.out.println(movie); // Exibe o filme encontrado
-                System.out.println(movie.getCast()[0]);
             } else {
                 System.out.println("Filme não encontrado");
             }
