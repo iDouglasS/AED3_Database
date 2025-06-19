@@ -113,6 +113,9 @@ public class MovieDAO {
                 LocalDate releaseDate = LocalDate.parse(scanner.next().replace("\"", "").trim(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
                 float score = Float.parseFloat(scanner.next().replace("\"", "").trim());
                 String[] genres = scanner.next().replace("\"", "").trim().split(", *");
+    
+                scanner.next();
+
                 String[] cast = scanner.next().replace("\"", "").trim().split(", *");
     
                 Movie movie = new Movie(title, releaseDate, genres, score, cast);
