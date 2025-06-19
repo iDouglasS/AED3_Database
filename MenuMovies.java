@@ -14,7 +14,6 @@ import java.util.Base64;
 public class MenuMovies {
     private MovieDAO movieDAO;
     private Scanner console = new Scanner(System.in);
-    private Encryption encryption = new Encryption();
 
     // Construtor inicializa o DAO de filmes
     public MenuMovies() throws Exception {
