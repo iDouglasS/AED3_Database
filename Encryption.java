@@ -7,8 +7,8 @@ public class Encryption {
         for (char curChar : originalText.toCharArray()) {
             if (Character.isLetter(curChar)) {
                 int base = Character.isUpperCase(curChar) ? 65 : 97;
-                
-                char cipherChar = (char)(((int)curChar + key - base) % 26 + base);
+                int shifted = (curChar - base + key + 26) % 26;
+                char cipherChar = (char)(shifted + base);
 
                 cipherText.append(cipherChar);
             }
@@ -28,7 +28,6 @@ public class Encryption {
     public String[] cipherCaesarArray(String[] originalTexts, int key) {
         for (int i = 0; i < originalTexts.length; i++) {
             originalTexts[i] = caesarCipher(originalTexts[i], key);
-            System.out.println(originalTexts[i]);
         }
 
         return originalTexts;
