@@ -5,11 +5,12 @@ PUC Minas
 📚 Curso: Engenharia da Computação
 🖥️ Disciplina: Algoritmos e Estruturas de Dados III
 👨‍🏫 Professor: Walisson Ferreira de Carvalho
+
 👥 Alunos
 
-    Wander Júnior Cruz (844970)
+Wander Júnior Cruz (844970)
 
-    Douglas Silva Santana (874490)
+Douglas Silva Santana (874490)
 
     🚀 Etapa 1: Criação da Base de Dados : ✅ Implementação: Concluída
     🚀 Etapa 2: Indexação: Implementação : ✅ Implementação: Concluída
