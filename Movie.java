@@ -29,7 +29,7 @@ public class Movie implements Recordable {
         this.releaseDate = releaseDate;
         this.genres = encryption.cipherCaesarArray(genres);
         this.score = score;
-        this.cast = cast;
+        this.cast = encryption.cipherViginereArray(cast);
     }
 
     // Getters e setters para os atributos do filme
@@ -43,8 +43,8 @@ public class Movie implements Recordable {
     public void setGenres(String[] genres) { this.genres = encryption.cipherCaesarArray(genres); }
     public float getScore() { return score; }
     public void setScore(float score) { this.score = score; }
-    public String[] getCast() { return cast; }
-    public void setCast(String[] cast) { this.cast = cast; }
+    public String[] getCast() { return encryption.decipherViginereArray(cast); }
+    public void setCast(String[] cast) { this.cast = encryption.cipherViginereArray(cast); }
 
     // Converte o filme para um array de bytes (para gravação)
     @Override
@@ -103,13 +103,14 @@ public class Movie implements Recordable {
     // Exibe os dados do filme em formato legível
     @Override
     public String toString() {
-        encryption.decipherCaesarArray(this.genres);
+        String[] decryptedCast = encryption.decipherViginereArray(this.cast);
+        String[] decryptedGenres = encryption.decipherCaesarArray(this.genres);
 
         return "\nID: " + this.id +
                 "\nTitle: " + this.title +
                 "\nRelease Date: " + this.releaseDate +
-                "\nGenres: " + String.join(", ", this.genres) +
+                "\nGenres: " + String.join(", ", decryptedGenres) +
                 "\nScore: " + this.score +
-                "\nCast: " + String.join(", ", this.cast);
+                "\nCast: " + String.join(", ", decryptedCast);
     }
 }
